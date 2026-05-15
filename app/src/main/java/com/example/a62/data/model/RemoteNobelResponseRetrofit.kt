@@ -51,7 +51,7 @@ data class RemoteLink(
     val href: String?
 )
 
-fun RemoteNobelPrize.toDomainList(): List<Laureate> {
+fun RemoteNobelPrize.toDomain(): List<Laureate> {
     val list = mutableListOf<Laureate>()
     val cat = this.category?.en ?: ""
     val year = this.awardYear
