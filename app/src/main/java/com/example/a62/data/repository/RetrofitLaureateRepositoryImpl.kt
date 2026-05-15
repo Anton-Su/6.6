@@ -1,5 +1,6 @@
 package com.example.a62.data.repository
 
+import com.example.a62.data.model.RemoteNobelResponseRetrofit
 import com.example.a62.data.model.toDomain
 import com.example.a62.data.remote.RetrofitClient
 import com.example.a62.data.model.toDomainList
@@ -12,7 +13,7 @@ class RetrofitLaureateRepositoryImpl : LaureateRepository {
         return try {
             val resp = RetrofitClient.api.getLaureats()
             if (!resp.isSuccessful) return emptyList()
-            val body = resp.body() ?: com.example.a62.data.model.RemoteNobelResponseRetrofit()
+            val body = resp.body() ?: RemoteNobelResponseRetrofit()
             val all = body.nobelPrizes.flatMap { it.toDomain() }
             all.filter { l ->
                 val yearMatch = nobelPrizeYear?.let { y -> l.year == y.toString() } ?: true
