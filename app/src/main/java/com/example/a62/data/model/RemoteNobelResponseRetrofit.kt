@@ -13,7 +13,6 @@ data class RemoteNobelPrize(
     val awardYear: String,
     val category: Localized?
 ){
-    // laureates may be absent for some entries
     @Json(name = "laureates")
     var laureates: List<RemoteLaureate>? = null
 }

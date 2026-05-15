@@ -16,8 +16,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val filterUseCase = FilterLaureatesUseCase(RetrofitLaureateRepositoryImpl())
-        // val filterUseCase = FilterLaureatesUseCase(KtorLaureateRepositoryImpl())
+        // val filterUseCase = FilterLaureatesUseCase(RetrofitLaureateRepositoryImpl())
+        val filterUseCase = FilterLaureatesUseCase(KtorLaureateRepositoryImpl())
         val vm = LaureateViewModel(filterUseCase)
         enableEdgeToEdge()
         setContent {
