@@ -4,6 +4,7 @@ import com.example.a62.domain.model.Laureate
 import com.example.a62.domain.model.NobelPrize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.random.Random
 
 @Serializable
 data class RemoteNobelResponseKtor(
@@ -34,27 +35,9 @@ data class RemoteLaureateKtor(
     val portion: String? = null,
     val fullName: LocalizedKtor? = null,
     val motivation: LocalizedKtor? = null,
-    val birth: RemoteBirthKtor? = null,
     val links: List<RemoteLinkKtor> = emptyList()
 )
 
-@Serializable
-data class RemoteBirthKtor(
-    val place: RemotePlaceKtor? = null
-)
-
-
-@Serializable
-data class RemotePlaceKtor(
-    val city: String? = null,
-    val country: RemoteCountryKtor? = null
-)
-
-@Serializable
-data class RemoteCountryKtor(
-    @SerialName("en")
-    val en: String? = null
-)
 
 @Serializable
 data class RemoteLinkKtor(
@@ -70,17 +53,13 @@ fun RemoteNobelPrizeKtor.toDomain(): NobelPrize {
         val name = r.fullName?.en ?: r.knownName?.en ?: ""
         val portion = r.portion ?: "1"
         val motivation = r.motivation?.en ?: ""
-        val birthCountry = r.birth?.place?.country?.en
-        val birthPlace = r.birth?.place?.city
         val portrait = r.links.firstOrNull { it.rel == "image" }?.href
         Laureate(
             id = r.id,
             fullName = name,
             portion = portion.toFloatInDelete(),
             motivation = motivation,
-            birthCountry = birthCountry,
-            birthPlace = birthPlace,
-            portraitUrl = portrait
+            portraitUrl = "https://picsum.photos/${Random.nextInt(100, 301)}"
         )
     } ?: emptyList()
     val id = awardYear + "_" + cat

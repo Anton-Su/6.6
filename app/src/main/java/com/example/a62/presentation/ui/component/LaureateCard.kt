@@ -29,7 +29,6 @@ fun LaureatesCard(
     prize: NobelPrize,
     navHostController: NavHostController
 ) {
-    Log.e("LaureatesCard", "Rendering card for ${prize.laureates}")
     Card(
         modifier = Modifier
             .fillMaxWidth()

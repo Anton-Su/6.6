@@ -3,6 +3,8 @@ package com.example.a62.data.model
 import com.example.a62.domain.model.Laureate
 import com.example.a62.domain.model.NobelPrize
 import com.squareup.moshi.Json
+import java.lang.Math.random
+import kotlin.random.Random
 
 data class RemoteNobelResponseRetrofit(
     @Json(name = "nobelPrizes")
@@ -30,22 +32,7 @@ data class RemoteLaureate(
     val portion: String?,
     val fullName: Localized?,
     val motivation: Localized?,
-    val birth: RemoteBirth?,
     val links: List<RemoteLink>?
-)
-
-data class RemoteBirth(
-    val place: RemotePlace?
-)
-
-data class RemotePlace(
-    val city: String?,
-    val country: RemoteCountry?
-)
-
-data class RemoteCountry(
-    @Json(name = "en")
-    val en: String?
 )
 
 data class RemoteLink(
@@ -60,17 +47,13 @@ fun RemoteNobelPrize.toDomain(): NobelPrize {
         val name = r.fullName?.en ?: r.knownName?.en ?: ""
         val portion = r.portion ?: "1"
         val motivation = r.motivation?.en ?: ""
-        val birthCountry = r.birth?.place?.country?.en
-        val birthPlace = r.birth?.place?.city
         val portrait = r.links?.firstOrNull { it.rel == "image" }?.href
         Laureate(
             id = r.id,
             fullName = name,
             portion = portion.toFloatInDelete(),
             motivation = motivation,
-            birthCountry = birthCountry,
-            birthPlace = birthPlace,
-            portraitUrl = portrait
+            portraitUrl = "https://picsum.photos/${Random.nextInt(100, 301)}"
         )
     } ?: emptyList()
     val id = year + "_" + cat

@@ -37,18 +37,18 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                     }
                 }
             )
-            Column(modifier = Modifier
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)) {
+                .padding(16.dp))
+            {
                 Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.headlineLarge)
                 Spacer(Modifier.height(12.dp))
                 Text(text = "Лауреаты:")
                 Spacer(Modifier.height(12.dp))
                 item.laureates.forEachIndexed { index, laureate ->
-                    Text(text = "Лауреат ${index + 1}): ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "Лауреат ${index + 1}) ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
                     Text(text = "Вклад: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
-                    Log.e("DetailScreen", "Laureate ${laureate.fullName} has portrait URL: ${laureate.portraitUrl}")
                     AsyncImage(
                         model = laureate.portraitUrl ?: "https://placehold.co/",
                         contentDescription = null,
@@ -59,10 +59,7 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(text = "Мотивация: " + (laureate.motivation.ifEmpty { "Не указана" }), style = MaterialTheme.typography.bodyLarge)
-                    Spacer(Modifier.height(8.dp))
-                    val country = laureate.birthCountry
-                    val place = laureate.birthPlace
-                    Text(text = "Страна: ${country ?: "Неизвестно"} ${place?.let { ", $it" } ?: ""}", style = MaterialTheme.typography.bodyLarge)
+                    Spacer(Modifier.height(4.dp))
                 }
             }
         }
