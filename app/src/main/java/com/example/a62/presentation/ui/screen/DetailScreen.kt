@@ -18,12 +18,12 @@ import androidx.compose.ui.Modifier
 import coil.compose.AsyncImage
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.a62.domain.model.Laureate
+import com.example.a62.domain.model.NobelPrize
 import com.example.a62.presentation.viewmodel.LaureateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewModel, item: Laureate) {
+fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewModel, item: NobelPrize) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { paddingValues ->
         Column(modifier = Modifier.fillMaxSize()) {
@@ -41,28 +41,29 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                 .padding(16.dp)) {
                 Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.bodyLarge)
                 Spacer(Modifier.height(12.dp))
-                Text(text = "Фотография награждения:")
-                AsyncImage(
-                    model = item.portraitUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
-                )
+                Text(text = "Лауреаты:")
                 Spacer(Modifier.height(12.dp))
-                val full_laureats = item.fullName.split(", ")
-                for (i in full_laureats.indices) {
-                    if (i == 0) {
-                        Text(text = "Лауреат: " + full_laureats[i], style = MaterialTheme.typography.bodyLarge)
-                    } else {
-                        Text(text = "Со-лауреат: " + full_laureats[i], style = MaterialTheme.typography.bodyLarge)
+                item.laureates.forEachIndexed { index, laureate ->
+                    if (laureate.portion != "1") {
+                        Text(text = "Доля: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
                     }
+                    Text(text = "Лауреат: ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
+                    AsyncImage(
+                        model = laureate.portraitUrl ?: "https://via.placeholder.com/150",
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(text = "Мотивация: " + (laureate.motivation.ifEmpty { "Не указана" }), style = MaterialTheme.typography.bodyLarge)
+                    Spacer(Modifier.height(8.dp))
                 }
-                Spacer(Modifier.height(8.dp))
-                Text(text = "Мотивация: " + item.motivation.ifEmpty { "Не указана" }, style = MaterialTheme.typography.bodyLarge)
                 Spacer(Modifier.height(12.dp))
-                Text(text = "Страна: ${item.birthCountry ?: "Неизвестно"} ${item.birthPlace?.let { ", $it" } ?: ""}", style = MaterialTheme.typography.bodyLarge)
+                val country = item.laureates.firstOrNull()?.birthCountry
+                val place = item.laureates.firstOrNull()?.birthPlace
+                Text(text = "Страна: ${country ?: "Неизвестно"} ${place?.let { ", $it" } ?: ""}", style = MaterialTheme.typography.bodyLarge)
             }
         }
     }

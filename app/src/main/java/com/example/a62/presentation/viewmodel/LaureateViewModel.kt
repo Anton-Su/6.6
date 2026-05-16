@@ -3,7 +3,7 @@ package com.example.a62.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.example.a62.domain.model.Laureate
+import com.example.a62.domain.model.NobelPrize
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import com.example.a62.domain.usecase.FilterLaureatesUseCase
@@ -18,9 +18,9 @@ sealed class UiState<out T> {
 
 
 class LaureateViewModel(val filterUseCase: FilterLaureatesUseCase) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<List<Laureate>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<List<Laureate>>> = _uiState
-    val laureates: StateFlow<List<Laureate>> = uiState
+    private val _uiState = MutableStateFlow<UiState<List<NobelPrize>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<NobelPrize>>> = _uiState
+    val laureates: StateFlow<List<NobelPrize>> = uiState
         .map { state ->
             when (state) {
                 is UiState.Success -> state.data

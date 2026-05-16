@@ -15,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.a62.domain.model.Laureate
+import com.example.a62.domain.model.NobelPrize
 import com.example.a62.navigation.Screen
 
 @Composable
-fun LaureateCard(item: Laureate, navHostController: NavHostController) {
+fun LaureateCard(item: NobelPrize, navHostController: NavHostController) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .clickable { navHostController.navigate(Screen.PhotoDetailScreen.createRoute(item.id.hashCode())) }
@@ -33,8 +33,10 @@ fun LaureateCard(item: Laureate, navHostController: NavHostController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.bodyLarge)
-                Text(text = item.fullName, style = MaterialTheme.typography.bodyMedium)
+                Text(text = item.laureates.firstOrNull()?.fullName ?: "", style = MaterialTheme.typography.bodyMedium)
             }
         }
     }
 }
+
+

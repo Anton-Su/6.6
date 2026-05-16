@@ -62,7 +62,7 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                 modifier = Modifier.weight(2f)
             ) {
                 OutlinedTextField(
-                    value = if (selectedCategory.isBlank()) "Всё" else selectedCategory,
+                    value = selectedCategory.ifBlank { "Всё" },
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Категория") },
@@ -76,7 +76,7 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                 ) {
                     categories.forEach { option ->
                         DropdownMenuItem(
-                            text = { Text(if (option.isBlank()) "Все" else option) },
+                            text = { Text(option.ifBlank { "Все" }) },
                             onClick = {
                                 selectedCategory = option
                                 expanded = false
@@ -88,7 +88,7 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
             Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {
                 scope.launch {
                     val year = yearText.toIntOrNull()
-                    val category = if (selectedCategory.isBlank()) null else selectedCategory
+                    val category = selectedCategory.ifBlank { null }
                     viewModel.applyFilter(year, category)
                 }
             }) {

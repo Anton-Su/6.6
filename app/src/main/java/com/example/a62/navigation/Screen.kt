@@ -29,8 +29,8 @@ fun Navigation(navController: NavHostController = rememberNavController(), viewM
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
         ) { backStackEntry ->
             val itemId = backStackEntry.arguments?.getInt("itemId")
-            val photos = viewModel.laureates.collectAsState().value
-            val item = itemId?.let { id -> photos.find { it.id.hashCode() == id } }
+            val prizes = viewModel.laureates.collectAsState().value
+            val item = itemId?.let { id -> prizes.find { it.id.hashCode() == id } }
             if (item != null) {
                 DetailScreen(navHostController = navController, viewModel = viewModel, item = item)
             }

@@ -1,6 +1,7 @@
 package com.example.a62.data.model
 
 import com.example.a62.domain.model.Laureate
+import com.example.a62.domain.model.NobelPrize
 import com.squareup.moshi.Json
 
 data class RemoteNobelResponseRetrofit(
@@ -26,6 +27,7 @@ data class Localized(
 data class RemoteLaureate(
     val id: String,
     val knownName: Localized?,
+    val portion: String?,
     val fullName: Localized?,
     val motivation: Localized?,
     val birth: RemoteBirth?,
@@ -51,8 +53,8 @@ data class RemoteLink(
     val href: String?
 )
 
-fun RemoteNobelPrize.toDomain(): List<Laureate> {
-    val list = mutableListOf<Laureate>()
+fun RemoteNobelPrize.toDomainList(): List<NobelPrize> {
+    val list = mutableListOf<NobelPrize>()
     val cat = this.category?.en ?: ""
     val year = this.awardYear
     this.laureates?.forEach { r ->
@@ -62,15 +64,21 @@ fun RemoteNobelPrize.toDomain(): List<Laureate> {
         val birthPlace = r.birth?.place?.city
         val portrait = r.links?.firstOrNull { it.rel == "image" }?.href
         list.add(
-            Laureate(
+            NobelPrize(
                 id = r.id,
-                fullName = name,
                 year = year,
                 category = cat,
-                motivation = motivation,
-                birthCountry = birthCountry,
-                birthPlace = birthPlace,
-                portraitUrl = portrait
+                laureates = listOf(
+                    Laureate(
+                        id = r.id,
+                        fullName = name,
+                        portion = r.portion ?: "1",
+                        motivation = motivation,
+                        birthCountry = birthCountry,
+                        birthPlace = birthPlace,
+                        portraitUrl = portrait
+                    )
+                )
             )
         )
     }

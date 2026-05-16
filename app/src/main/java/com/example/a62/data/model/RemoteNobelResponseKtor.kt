@@ -1,6 +1,7 @@
 package com.example.a62.data.model
 
 import com.example.a62.domain.model.Laureate
+import com.example.a62.domain.model.NobelPrize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,6 +31,7 @@ data class LocalizedKtor(
 data class RemoteLaureateKtor(
     val id: String,
     val knownName: LocalizedKtor? = null,
+    val portion: String? = null,
     val fullName: LocalizedKtor? = null,
     val motivation: LocalizedKtor? = null,
     val birth: RemoteBirthKtor? = null,
@@ -60,26 +62,33 @@ data class RemoteLinkKtor(
     val href: String? = null
 )
 
-fun RemoteNobelPrizeKtor.toDomainList(): List<Laureate> {
-    val list = mutableListOf<Laureate>()
+fun RemoteNobelPrizeKtor.toDomainList(): List<NobelPrize> {
+    val list = mutableListOf<NobelPrize>()
     val cat = this.category?.en ?: ""
     val year = this.awardYear
     this.laureates?.forEach { r ->
         val name = r.fullName?.en ?: r.knownName?.en ?: ""
+        val portion = r.portion ?: "1"
         val motivation = r.motivation?.en ?: ""
         val birthCountry = r.birth?.place?.country?.en
         val birthPlace = r.birth?.place?.city
-        val portrait = r.links?.firstOrNull { it.rel == "image" }?.href
+        val portrait = r.links.firstOrNull { it.rel == "image" }?.href
         list.add(
-            Laureate(
+            NobelPrize(
                 id = r.id,
-                fullName = name,
                 year = year,
                 category = cat,
-                motivation = motivation,
-                birthCountry = birthCountry,
-                birthPlace = birthPlace,
-                portraitUrl = portrait
+                laureates = listOf(
+                    Laureate(
+                        id = r.id,
+                        fullName = name,
+                        portion = portion,
+                        motivation = motivation,
+                        birthCountry = birthCountry,
+                        birthPlace = birthPlace,
+                        portraitUrl = portrait
+                    )
+                )
             )
         )
     }
