@@ -20,6 +20,13 @@ sealed class UiState<out T> {
 class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<List<NobelPrize>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<NobelPrize>>> = _uiState
+
+    private val _yearText = MutableStateFlow("")
+    val yearText: StateFlow<String> = _yearText
+
+    private val _selectedCategory = MutableStateFlow("")
+    val selectedCategory: StateFlow<String> = _selectedCategory
+
     val laureates: StateFlow<List<NobelPrize>> = uiState
         .map { state ->
             when (state) {
@@ -31,6 +38,14 @@ class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel(
 
     init {
         fetchLaureates()
+    }
+
+    fun onYearTextChanged(value: String) {
+        _yearText.value = value.filter { it.isDigit() }
+    }
+
+    fun onCategoryChanged(value: String) {
+        _selectedCategory.value = value
     }
 
     private fun fetchLaureates() {
@@ -49,6 +64,13 @@ class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel(
         fetchLaureates()
     }
 
+    fun applyFilter() {
+        val year = _yearText.value.toIntOrNull()
+        val category = _selectedCategory.value.ifBlank { null }
+        viewModelScope.launch {
+            applyFilter(year, category)
+        }
+    }
 
     suspend fun applyFilter(nobelPrizeYear: Int?, nobelPrizeCategory: String?) {
         _uiState.value = UiState.Loading

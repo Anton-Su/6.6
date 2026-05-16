@@ -21,8 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.rememberCoroutineScope
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,11 +34,12 @@ import com.example.a62.presentation.viewmodel.LaureateViewModel
 @Composable
 fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel) {
     val uiState = viewModel.uiState.collectAsState()
-    val scope = rememberCoroutineScope()
-    var yearText by remember { mutableStateOf("") }
-    val categories = listOf("", "physics", "chemistry", "literature", "peace", "medicine", "economics")
-    var selectedCategory by remember { mutableStateOf(categories[0]) }
+    val yearText = viewModel.yearText.collectAsState()
+    val selectedCategory = viewModel.selectedCategory.collectAsState()
+
+    val categories = listOf("", "physics", "chemistry", "literature", "peace", "physiology or medicine")
     var expanded by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(text = "Нобелевские премии") },
@@ -51,8 +50,8 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
-                value = yearText,
-                onValueChange = { yearText = it.filter { ch -> ch.isDigit() } },
+                value = yearText.value,
+                onValueChange = viewModel::onYearTextChanged,
                 label = { Text("Год") },
                 modifier = Modifier.weight(1f)
             )
@@ -62,7 +61,7 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                 modifier = Modifier.weight(2f)
             ) {
                 OutlinedTextField(
-                    value = selectedCategory.ifBlank { "Всё" },
+                    value = selectedCategory.value.ifBlank { "Всё" },
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Категория") },
@@ -78,20 +77,17 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                         DropdownMenuItem(
                             text = { Text(option.ifBlank { "Все" }) },
                             onClick = {
-                                selectedCategory = option
+                                viewModel.onCategoryChanged(option)
                                 expanded = false
                             }
                         )
                     }
                 }
             }
-            Button(modifier = Modifier.align(Alignment.CenterVertically), onClick = {
-                scope.launch {
-                    val year = yearText.toIntOrNull()
-                    val category = selectedCategory.ifBlank { null }
-                    viewModel.applyFilter(year, category)
-                }
-            }) {
+            Button(
+                modifier = Modifier.align(Alignment.CenterVertically),
+                onClick = { viewModel.applyFilter() }
+            ) {
                 Text(text = "Фильтр")
             }
         }

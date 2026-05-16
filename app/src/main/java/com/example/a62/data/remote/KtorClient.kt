@@ -35,7 +35,7 @@ object KtorClient {
         }
     }
     suspend fun fetchLaureates(
-        limit: Int = 25,
+        limit: Int = 50,
         offset: Int = 0
     ): RemoteNobelResponseKtor {
         return client.get("https://api.nobelprize.org/2.1/nobelPrizes") {

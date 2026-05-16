@@ -1,7 +1,8 @@
 package com.example.a62.presentation.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.SnackbarHost
@@ -27,8 +28,8 @@ import com.example.a62.presentation.viewmodel.LaureateViewModel
 @Composable
 fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewModel, item: NobelPrize) {
     val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { paddingValues ->
-        Column(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        topBar = {
             TopAppBar(
                 title = { Text(text = "Детали премии") },
                 navigationIcon = {
@@ -37,30 +38,39 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                     }
                 }
             )
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp))
-            {
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            item {
                 Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.headlineLarge)
                 Spacer(Modifier.height(12.dp))
                 Text(text = "Лауреаты:")
                 Spacer(Modifier.height(12.dp))
-                item.laureates.forEachIndexed { index, laureate ->
-                    Text(text = "Лауреат ${index + 1}) ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = "Вклад: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
-                    AsyncImage(
-                        model = laureate.portraitUrl ?: "https://placehold.co/",
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp),
-                        contentScale = Crop
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text(text = "Мотивация: " + (laureate.motivation.ifEmpty { "Не указана" }), style = MaterialTheme.typography.bodyLarge)
-                    Spacer(Modifier.height(4.dp))
-                }
+            }
+            itemsIndexed(item.laureates, key = { _, laureate -> laureate.id }) { index, laureate ->
+                Text(text = "Лауреат ${index + 1}) ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
+                Text(text = "Вклад: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
+                AsyncImage(
+                    model = laureate.portraitUrl ?: "https://placehold.co/",
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp),
+                    contentScale = Crop
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "Мотивация: " + (laureate.motivation.ifEmpty { "Не указана" }),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(Modifier.height(8.dp))
             }
         }
     }
