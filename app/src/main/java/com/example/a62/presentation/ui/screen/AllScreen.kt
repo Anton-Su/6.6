@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.a62.presentation.ui.component.LaureateCard
+import com.example.a62.presentation.ui.component.LaureatesCard
 import com.example.a62.presentation.viewmodel.UiState
 import com.example.a62.presentation.viewmodel.LaureateViewModel
 
@@ -109,8 +109,8 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(state.data) { item ->
-                        LaureateCard(item = item, navHostController = navHostController)
+                    items(state.data) { prize ->
+                        LaureatesCard(prize = prize, navHostController = navHostController)
                     }
                 }
             }

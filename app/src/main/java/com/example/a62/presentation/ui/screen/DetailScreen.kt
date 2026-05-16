@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import coil.compose.AsyncImage
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -39,31 +40,28 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp)) {
-                Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.bodyLarge)
+                Text(text = "${item.year} • ${item.category}", style = MaterialTheme.typography.headlineLarge)
                 Spacer(Modifier.height(12.dp))
                 Text(text = "Лауреаты:")
                 Spacer(Modifier.height(12.dp))
                 item.laureates.forEachIndexed { index, laureate ->
-                    if (laureate.portion != "1") {
-                        Text(text = "Доля: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
-                    }
-                    Text(text = "Лауреат: ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "Лауреат ${index + 1}): ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "Вклад: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
                     AsyncImage(
-                        model = laureate.portraitUrl ?: "https://via.placeholder.com/150",
+                        model = laureate.portraitUrl ?: "https://placehold.co/",
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(100.dp),
-                        contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                        contentScale = Crop
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(text = "Мотивация: " + (laureate.motivation.ifEmpty { "Не указана" }), style = MaterialTheme.typography.bodyLarge)
                     Spacer(Modifier.height(8.dp))
+                    val country = laureate.birthCountry
+                    val place = laureate.birthPlace
+                    Text(text = "Страна: ${country ?: "Неизвестно"} ${place?.let { ", $it" } ?: ""}", style = MaterialTheme.typography.bodyLarge)
                 }
-                Spacer(Modifier.height(12.dp))
-                val country = item.laureates.firstOrNull()?.birthCountry
-                val place = item.laureates.firstOrNull()?.birthPlace
-                Text(text = "Страна: ${country ?: "Неизвестно"} ${place?.let { ", $it" } ?: ""}", style = MaterialTheme.typography.bodyLarge)
             }
         }
     }

@@ -53,35 +53,31 @@ data class RemoteLink(
     val href: String?
 )
 
-fun RemoteNobelPrize.toDomainList(): List<NobelPrize> {
-    val list = mutableListOf<NobelPrize>()
+fun RemoteNobelPrize.toDomain(): NobelPrize {
     val cat = this.category?.en ?: ""
     val year = this.awardYear
-    this.laureates?.forEach { r ->
+    val laureatesList = this.laureates?.map { r ->
         val name = r.fullName?.en ?: r.knownName?.en ?: ""
+        val portion = r.portion ?: "1"
         val motivation = r.motivation?.en ?: ""
         val birthCountry = r.birth?.place?.country?.en
         val birthPlace = r.birth?.place?.city
         val portrait = r.links?.firstOrNull { it.rel == "image" }?.href
-        list.add(
-            NobelPrize(
-                id = r.id,
-                year = year,
-                category = cat,
-                laureates = listOf(
-                    Laureate(
-                        id = r.id,
-                        fullName = name,
-                        portion = r.portion ?: "1",
-                        motivation = motivation,
-                        birthCountry = birthCountry,
-                        birthPlace = birthPlace,
-                        portraitUrl = portrait
-                    )
-                )
-            )
+        Laureate(
+            id = r.id,
+            fullName = name,
+            portion = portion,
+            motivation = motivation,
+            birthCountry = birthCountry,
+            birthPlace = birthPlace,
+            portraitUrl = portrait
         )
-    }
-    return list
+    } ?: emptyList()
+    val id = year + "_" + cat
+    return NobelPrize(
+        id = id,
+        year = year,
+        category = cat,
+        laureates = laureatesList
+    )
 }
-
