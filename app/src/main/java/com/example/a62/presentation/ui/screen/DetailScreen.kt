@@ -1,5 +1,6 @@
 package com.example.a62.presentation.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,6 +48,7 @@ fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewMo
                 item.laureates.forEachIndexed { index, laureate ->
                     Text(text = "Лауреат ${index + 1}): ${laureate.fullName}", style = MaterialTheme.typography.bodyLarge)
                     Text(text = "Вклад: ${laureate.portion}", style = MaterialTheme.typography.bodyLarge)
+                    Log.e("DetailScreen", "Laureate ${laureate.fullName} has portrait URL: ${laureate.portraitUrl}")
                     AsyncImage(
                         model = laureate.portraitUrl ?: "https://placehold.co/",
                         contentDescription = null,

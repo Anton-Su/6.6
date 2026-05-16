@@ -66,7 +66,7 @@ fun RemoteNobelPrize.toDomain(): NobelPrize {
         Laureate(
             id = r.id,
             fullName = name,
-            portion = portion,
+            portion = portion.toFloatInDelete(),
             motivation = motivation,
             birthCountry = birthCountry,
             birthPlace = birthPlace,

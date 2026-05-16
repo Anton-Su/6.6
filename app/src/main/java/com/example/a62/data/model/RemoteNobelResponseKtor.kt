@@ -76,7 +76,7 @@ fun RemoteNobelPrizeKtor.toDomain(): NobelPrize {
         Laureate(
             id = r.id,
             fullName = name,
-            portion = (portion.toInt() *  100).toString() + "%",
+            portion = portion.toFloatInDelete(),
             motivation = motivation,
             birthCountry = birthCountry,
             birthPlace = birthPlace,
@@ -90,4 +90,11 @@ fun RemoteNobelPrizeKtor.toDomain(): NobelPrize {
         category = cat,
         laureates = laureatesList
     )
+}
+
+
+fun String.toFloatInDelete(): String {
+    val z = this.split("/")
+    if (z.size == 2) return String.format("%.2f", z[0].toDouble() / z[1].toDouble() * 100) + " %"
+    return this + "00 %"
 }
