@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import com.example.a62.domain.model.NobelPrize
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import com.example.a62.domain.usecase.FilterLaureatesUseCase
+import com.example.a62.domain.usecase.FilterNobelPrizeUseCase
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
@@ -17,7 +17,7 @@ sealed class UiState<out T> {
 }
 
 
-class LaureateViewModel(val filterUseCase: FilterLaureatesUseCase) : ViewModel() {
+class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<List<NobelPrize>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<NobelPrize>>> = _uiState
     val laureates: StateFlow<List<NobelPrize>> = uiState

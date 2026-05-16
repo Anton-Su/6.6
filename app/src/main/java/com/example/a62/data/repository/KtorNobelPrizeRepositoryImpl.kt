@@ -3,10 +3,10 @@ package com.example.a62.data.repository
 import com.example.a62.data.remote.KtorClient
 import com.example.a62.data.model.toDomainList
 import com.example.a62.domain.model.NobelPrize
-import com.example.a62.domain.repository.LaureateRepository
+import com.example.a62.domain.repository.NobelPrizeRepository
 
-class KtorLaureateRepositoryImpl : LaureateRepository {
-    override suspend fun filterLaureates(
+class KtorNobelPrizeRepositoryImpl : NobelPrizeRepository {
+    override suspend fun filterNobelPrize(
         nobelPrizeYear: Int?,
         nobelPrizeCategory: String?
     ): List<NobelPrize> {

@@ -8,16 +8,14 @@ import com.example.a62.ui.theme._62Theme
 import com.example.a62.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.a62.presentation.viewmodel.LaureateViewModel
-import com.example.a62.data.repository.KtorLaureateRepositoryImpl
-import com.example.a62.data.repository.RetrofitLaureateRepositoryImpl
-import com.example.a62.domain.usecase.FilterLaureatesUseCase
+import com.example.a62.data.repository.KtorNobelPrizeRepositoryImpl
+import com.example.a62.domain.usecase.FilterNobelPrizeUseCase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // val filterUseCase = FilterLaureatesUseCase(RetrofitLaureateRepositoryImpl())
-        val filterUseCase = FilterLaureatesUseCase(KtorLaureateRepositoryImpl())
+        // val filterUseCase = FilterNobelPrizeUseCase(RetrofitNobelPrizeRepositoryImpl())
+        val filterUseCase = FilterNobelPrizeUseCase(KtorNobelPrizeRepositoryImpl())
         val vm = LaureateViewModel(filterUseCase)
         enableEdgeToEdge()
         setContent {

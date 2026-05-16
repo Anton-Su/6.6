@@ -22,10 +22,10 @@ object RetrofitClient {
     private val moshi: Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
-    val api: LaureateApiRetrofit = Retrofit.Builder()
+    val api: NovelPriceApiRetrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .build()
-        .create(LaureateApiRetrofit::class.java)
+        .create(NovelPriceApiRetrofit::class.java)
 }

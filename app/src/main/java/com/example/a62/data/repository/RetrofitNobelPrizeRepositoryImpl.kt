@@ -3,15 +3,14 @@ package com.example.a62.data.repository
 import com.example.a62.data.model.RemoteNobelResponseRetrofit
 import com.example.a62.data.model.toDomainList
 import com.example.a62.data.remote.RetrofitClient
-import com.example.a62.data.model.toDomainList
 import com.example.a62.domain.model.NobelPrize
-import com.example.a62.domain.repository.LaureateRepository
+import com.example.a62.domain.repository.NobelPrizeRepository
 
 
-class RetrofitLaureateRepositoryImpl : LaureateRepository {
-    override suspend fun filterLaureates(nobelPrizeYear: Int?, nobelPrizeCategory: String?): List<NobelPrize> {
+class RetrofitNobelPrizeRepositoryImpl : NobelPrizeRepository {
+    override suspend fun filterNobelPrize(nobelPrizeYear: Int?, nobelPrizeCategory: String?): List<NobelPrize> {
         return try {
-            val resp = RetrofitClient.api.getLaureats()
+            val resp = RetrofitClient.api.getNobelPrices()
             if (!resp.isSuccessful) return emptyList()
             val body = resp.body() ?: RemoteNobelResponseRetrofit()
             val all = body.nobelPrizes.flatMap { it.toDomainList() }
