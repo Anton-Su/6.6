@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import com.example.a66.domain.model.NobelPrize
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import com.example.a66.domain.repository.AuthRepository
 import com.example.a66.domain.usecase.FilterNobelPrizeUseCase
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -17,7 +18,10 @@ sealed class UiState<out T> {
 }
 
 
-class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel() {
+class LaureateViewModel(
+    val filterUseCase: FilterNobelPrizeUseCase,
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow<UiState<List<NobelPrize>>>(UiState.Loading)
     val uiState: StateFlow<UiState<List<NobelPrize>>> = _uiState
 
@@ -79,6 +83,12 @@ class LaureateViewModel(val filterUseCase: FilterNobelPrizeUseCase) : ViewModel(
             _uiState.value = UiState.Success(list)
         } catch (e: Exception) {
             _uiState.value = UiState.Error(e.message ?: "Unknown Error")
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            authRepository.logout()
         }
     }
 }

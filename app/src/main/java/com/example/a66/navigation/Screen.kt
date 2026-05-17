@@ -8,10 +8,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.a66.presentation.ui.screen.AllScreen
 import com.example.a66.presentation.ui.screen.DetailScreen
+import com.example.a66.presentation.ui.screen.LoginScreen
 import com.example.a66.presentation.viewmodel.LaureateViewModel
 
 sealed class Screen(val route: String) {
+
+    data object LoginScreen : Screen("login")
+
     data object PhotoListScreen : Screen("photo_list")
     data object PhotoDetailScreen : Screen("photo_detail/{itemId}") {
         fun createRoute(itemId: Int) = "photo_detail/$itemId"
@@ -20,9 +25,14 @@ sealed class Screen(val route: String) {
 
 @Composable
 fun Navigation(navController: NavHostController = rememberNavController(), viewModel: LaureateViewModel) {
-    NavHost(navController, startDestination = Screen.PhotoListScreen.route) {
+    NavHost(navController, startDestination = Screen.LoginScreen.route) {
+
+        composable(Screen.LoginScreen.route) {
+            LoginScreen { navController.navigate(Screen.PhotoListScreen.route) }
+        }
+
         composable(Screen.PhotoListScreen.route) {
-            com.example.a66.presentation.ui.screen.AllScreen(navHostController = navController, viewModel = viewModel)
+            AllScreen(navHostController = navController, viewModel = viewModel)
         }
         composable(
             Screen.PhotoDetailScreen.route,

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.a66.data.remote.TokenManager
+import com.example.a66.data.repository.AuthRepositoryImpl
 import com.example.a66.ui.theme._66Theme
 import com.example.a66.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +17,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val filterUseCase = FilterNobelPrizeUseCase(KtorNobelPrizeRepositoryImpl())
-        val vm = LaureateViewModel(filterUseCase)
+        val authRepository = AuthRepositoryImpl(TokenManager(applicationContext))
+        val vm = LaureateViewModel(filterUseCase, authRepository)
         enableEdgeToEdge()
         setContent {
             _66Theme {

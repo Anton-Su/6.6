@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.a66.navigation.Screen
 import com.example.a66.presentation.ui.component.LaureatesCard
 import com.example.a66.presentation.viewmodel.UiState
 import com.example.a66.presentation.viewmodel.LaureateViewModel
@@ -36,13 +38,24 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
     val uiState = viewModel.uiState.collectAsState()
     val yearText = viewModel.yearText.collectAsState()
     val selectedCategory = viewModel.selectedCategory.collectAsState()
-
     val categories = listOf("", "physics", "chemistry", "literature", "peace", "physiology or medicine")
     var expanded by remember { mutableStateOf(false) }
-
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text(text = "Нобелевские премии") },
+            title = { Text(text = "Нобелевские премии")}, actions = {
+                TextButton(onClick = {
+                    viewModel.logout()
+                    navHostController.navigate(Screen.LoginScreen.route) {
+                        popUpTo(navHostController.graph.startDestinationId) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }) {
+                    Text("Выйти")
+                }
+            },
+
         )
         Row(modifier = Modifier
             .fillMaxWidth()

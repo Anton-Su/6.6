@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,14 +22,17 @@ import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import coil.compose.AsyncImage
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.a66.navigation.Screen
 import com.example.a66.domain.model.NobelPrize
 import com.example.a66.presentation.viewmodel.LaureateViewModel
-import kotlin.sequences.ifEmpty
-import kotlin.text.category
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navHostController: NavHostController, viewModel: LaureateViewModel, item: NobelPrize) {
+fun DetailScreen(
+    navHostController: NavHostController,
+    viewModel: LaureateViewModel,
+    item: NobelPrize
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
