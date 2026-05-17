@@ -31,6 +31,10 @@ class LaureateViewModel(
     private val _selectedCategory = MutableStateFlow("")
     val selectedCategory: StateFlow<String> = _selectedCategory
 
+    // Stub for future persistence (DataStore/DB/API)
+    private val _favourites = MutableStateFlow<List<NobelPrize>>(emptyList())
+    val favourites: StateFlow<List<NobelPrize>> = _favourites
+
     val laureates: StateFlow<List<NobelPrize>> = uiState
         .map { state ->
             when (state) {
@@ -90,6 +94,18 @@ class LaureateViewModel(
         viewModelScope.launch {
             authRepository.logout()
         }
+    }
+
+    // Stub for future persistence (DataStore/DB/API)
+    fun add_favourite(prize: NobelPrize) {
+        if (_favourites.value.none { it.id == prize.id }) {
+            _favourites.value = _favourites.value + prize
+        }
+    }
+
+    // Stub for future persistence (DataStore/DB/API)
+    fun delete_favourite(prize: NobelPrize) {
+        _favourites.value = _favourites.value.filterNot { it.id == prize.id }
     }
 }
 

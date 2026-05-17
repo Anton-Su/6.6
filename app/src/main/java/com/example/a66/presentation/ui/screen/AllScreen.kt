@@ -4,11 +4,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +48,9 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(text = "Нобелевские премии")}, actions = {
+                IconButton(onClick = { navHostController.navigate(Screen.FavouriteScreen.route) }) {
+                    Icon(imageVector = Icons.Default.Favorite, contentDescription = "Избранное")
+                }
                 TextButton(onClick = {
                     viewModel.logout()
                     navHostController.navigate(Screen.LoginScreen.route) {
@@ -119,7 +127,15 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(state.data) { prize ->
-                        LaureatesCard(prize = prize, navHostController = navHostController)
+                        LaureatesCard(
+                            prize = prize,
+                            navHostController = navHostController,
+                            trailingAction = {
+                                IconButton(onClick = { viewModel.add_favourite(prize) }) {
+                                    Icon(imageVector = Icons.Default.Add, contentDescription = "Добавить в избранное")
+                                }
+                            }
+                        )
                     }
                 }
             }

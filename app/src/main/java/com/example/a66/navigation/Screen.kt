@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.a66.presentation.ui.screen.AllScreen
 import com.example.a66.presentation.ui.screen.DetailScreen
+import com.example.a66.presentation.ui.screen.FavouriteScreen
 import com.example.a66.presentation.ui.screen.LoginScreen
 import com.example.a66.presentation.viewmodel.LaureateViewModel
 
@@ -18,6 +19,7 @@ sealed class Screen(val route: String) {
     data object LoginScreen : Screen("login")
 
     data object PhotoListScreen : Screen("photo_list")
+    data object FavouriteScreen : Screen("favourite")
     data object PhotoDetailScreen : Screen("photo_detail/{itemId}") {
         fun createRoute(itemId: Int) = "photo_detail/$itemId"
     }
@@ -33,6 +35,9 @@ fun Navigation(navController: NavHostController = rememberNavController(), viewM
 
         composable(Screen.PhotoListScreen.route) {
             AllScreen(navHostController = navController, viewModel = viewModel)
+        }
+        composable(Screen.FavouriteScreen.route) {
+            FavouriteScreen(navHostController = navController, viewModel = viewModel)
         }
         composable(
             Screen.PhotoDetailScreen.route,
