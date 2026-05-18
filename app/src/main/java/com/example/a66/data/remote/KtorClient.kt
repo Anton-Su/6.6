@@ -1,8 +1,10 @@
 ﻿package com.example.a66.data.remote
 
 
+import com.example.a66.data.model.LaureateDto
 import com.example.a66.data.model.LoginResponse
 import com.example.a66.data.model.NobelPrizeDto
+import com.example.a66.data.model.UserDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -15,11 +17,14 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -27,7 +32,6 @@ import kotlinx.serialization.json.Json
 
 object KtorClient {
     private var currentAccessToken: String? = null
-
     private val client = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {
@@ -57,8 +61,6 @@ object KtorClient {
             }
         }
 
-
-
     }
     suspend fun fetchLaureates(
         limit: Int = 50,
@@ -80,6 +82,44 @@ object KtorClient {
                 )
             )
         }.body()
+    }
+
+    suspend fun getProfile(): UserDto {
+        return client.get("http://10.0.2.2:8080/users/me") {
+            contentType(ContentType.Application.Json)
+            header(
+                HttpHeaders.Authorization,
+                "Bearer $currentAccessToken"
+            )
+        }.body()
+    }
+
+    suspend fun addPrize(prizeId: String) {
+        client.post("http://10.0.2.2:8080/users/me/prizes/$prizeId") {
+            header(
+                HttpHeaders.Authorization,
+                "Bearer $currentAccessToken"
+            )
+        }
+    }
+
+    suspend fun getFavoritePrizes(): List<NobelPrizeDto> {
+        return client.get("http://10.0.2.2:8080/users/me/prizes") {
+            contentType(ContentType.Application.Json)
+            header(
+                HttpHeaders.Authorization,
+                "Bearer $currentAccessToken"
+            )
+        }.body()
+    }
+
+    suspend fun deletePrize(prizeId: String) {
+        client.delete("http://10.0.2.2:8080/users/me/prizes/$prizeId") {
+            header(
+                HttpHeaders.Authorization,
+                "Bearer $currentAccessToken"
+            )
+        }
     }
 
     fun updateAccessToken(token: String?) {

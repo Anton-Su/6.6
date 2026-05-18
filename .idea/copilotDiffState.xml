@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/a66/data/repository/UserRepositoryImpl.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/a66/data/repository/UserRepositoryImpl.kt" />
+              <option name="originalContent" value="package com.example.a66.data.repository&#10;&#10;import com.example.a66.data.model.toDomain&#10;import com.example.a66.data.remote.KtorClient&#10;import com.example.a66.domain.model.Laureate&#10;import com.example.a66.domain.model.NobelPrize&#10;import com.example.a66.domain.model.User&#10;import com.example.a66.domain.repository.UserRepository&#10;&#10;class UserRepositoryImpl : UserRepository {&#10;    override suspend fun getProfile(): User {&#10;        return KtorClient.getProfile().toDomain()&#10;    }&#10;&#10;    override suspend fun showFavorite(): List&lt;NobelPrize&gt; {&#10;        return KtorClient.getFavoritePrizes().map { it.toDomain() }&#10;    }&#10;&#10;    override suspend fun addFavourite(prize: NobelPrize): User {&#10;        KtorClient.addPrize(prize.id)&#10;        return getProfile()&#10;    }&#10;&#10;    override suspend fun removeFavourite(prizeId: String): User {&#10;        KtorClient.deletePrize(prizeId)&#10;        return getProfile()&#10;    }&#10;&#10;&#10;&#10;}&#10;&#10;" />
+              <option name="updatedContent" value="package com.example.a66.data.repository&#10;&#10;import com.example.a66.data.model.toDomain&#10;import com.example.a66.data.remote.KtorClient&#10;import com.example.a66.domain.model.NobelPrize&#10;import com.example.a66.domain.model.User&#10;import com.example.a66.domain.repository.UserRepository&#10;&#10;class UserRepositoryImpl : UserRepository {&#10;    override suspend fun getProfile(): User {&#10;        return KtorClient.getProfile().toDomain()&#10;    }&#10;&#10;    override suspend fun showFavorite(): List&lt;NobelPrize&gt; {&#10;        return KtorClient.getFavoritePrizes().map { it.toDomain() }&#10;    }&#10;&#10;    override suspend fun addFavourite(prize: NobelPrize): User {&#10;        KtorClient.addPrize(prize.id)&#10;        return getProfile()&#10;    }&#10;&#10;    override suspend fun removeFavourite(prizeId: String): User {&#10;        KtorClient.deletePrize(prizeId)&#10;        return getProfile()&#10;    }&#10;&#10;&#10;&#10;}&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/a66/domain/repository/UserRepository.kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/java/com/example/a66/domain/repository/UserRepository.kt" />
+              <option name="originalContent" value="package com.example.a66.domain.repository&#10;&#10;import com.example.a66.domain.model.User&#10;import com.example.a66.domain.model.Laureate&#10;import com.example.a66.domain.model.NobelPrize&#10;&#10;interface UserRepository {&#10;    suspend fun getProfile(): User&#10;    suspend fun showFavorite(): List&lt;NobelPrize&gt;&#10;    suspend fun addFavourite(prize: NobelPrize): User&#10;    suspend fun removeFavourite(prizeId: String): User&#10;}&#10;&#10;" />
+              <option name="updatedContent" value="package com.example.a66.domain.repository&#10;&#10;import com.example.a66.domain.model.User&#10;import com.example.a66.domain.model.NobelPrize&#10;&#10;interface UserRepository {&#10;    suspend fun getProfile(): User&#10;    suspend fun showFavorite(): List&lt;NobelPrize&gt;&#10;    suspend fun addFavourite(prize: NobelPrize): User&#10;    suspend fun removeFavourite(prizeId: String): User&#10;}&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

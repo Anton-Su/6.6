@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -48,6 +49,12 @@ fun AllScreen(navHostController: NavHostController, viewModel: LaureateViewModel
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text(text = "Нобелевские премии")}, actions = {
+                IconButton(onClick = {
+                    viewModel.loadProfile()
+                    navHostController.navigate(Screen.ProfileScreen.route)
+                }) {
+                    Icon(imageVector = Icons.Default.Person, contentDescription = "Профиль")
+                }
                 IconButton(onClick = { navHostController.navigate(Screen.FavouriteScreen.route) }) {
                     Icon(imageVector = Icons.Default.Favorite, contentDescription = "Избранное")
                 }

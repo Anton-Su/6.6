@@ -12,6 +12,7 @@ import com.example.a66.presentation.ui.screen.AllScreen
 import com.example.a66.presentation.ui.screen.DetailScreen
 import com.example.a66.presentation.ui.screen.FavouriteScreen
 import com.example.a66.presentation.ui.screen.LoginScreen
+import com.example.a66.presentation.ui.screen.ProfileScreen
 import com.example.a66.presentation.viewmodel.LaureateViewModel
 
 sealed class Screen(val route: String) {
@@ -20,6 +21,7 @@ sealed class Screen(val route: String) {
 
     data object PhotoListScreen : Screen("photo_list")
     data object FavouriteScreen : Screen("favourite")
+    data object ProfileScreen : Screen("profile")
     data object PhotoDetailScreen : Screen("photo_detail/{itemId}") {
         fun createRoute(itemId: Int) = "photo_detail/$itemId"
     }
@@ -30,7 +32,8 @@ fun Navigation(navController: NavHostController = rememberNavController(), viewM
     NavHost(navController, startDestination = Screen.LoginScreen.route) {
 
         composable(Screen.LoginScreen.route) {
-            LoginScreen { navController.navigate(Screen.PhotoListScreen.route) }
+            LoginScreen { viewModel.refreshFavorites()
+                navController.navigate(Screen.PhotoListScreen.route) }
         }
 
         composable(Screen.PhotoListScreen.route) {
@@ -38,6 +41,9 @@ fun Navigation(navController: NavHostController = rememberNavController(), viewM
         }
         composable(Screen.FavouriteScreen.route) {
             FavouriteScreen(navHostController = navController, viewModel = viewModel)
+        }
+        composable(Screen.ProfileScreen.route) {
+            ProfileScreen(navHostController = navController, viewModel = viewModel)
         }
         composable(
             Screen.PhotoDetailScreen.route,

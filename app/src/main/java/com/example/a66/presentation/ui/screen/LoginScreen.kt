@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit) {
-    var username by remember { mutableStateOf("emilys") }
+    var username by remember { mutableStateOf("user0") }
     var password by remember { mutableStateOf("emilyspass") }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
