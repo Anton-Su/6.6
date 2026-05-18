@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LaureateDto(
-    val id: String,
+    val id: Int,
     val fullName: String,
     val motivation: String,
     val portion: String? = null,

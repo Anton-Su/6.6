@@ -7,6 +7,6 @@ interface UserRepository {
     suspend fun getProfile(): User
     suspend fun showFavorite(): List<NobelPrize>
     suspend fun addFavourite(prize: NobelPrize): User
-    suspend fun removeFavourite(prizeId: String): User
+    suspend fun removeFavourite(prizeId: Int): User
 }
 

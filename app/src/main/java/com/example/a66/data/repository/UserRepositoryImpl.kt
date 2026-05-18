@@ -20,7 +20,7 @@ class UserRepositoryImpl : UserRepository {
         return getProfile()
     }
 
-    override suspend fun removeFavourite(prizeId: String): User {
+    override suspend fun removeFavourite(prizeId: Int): User {
         KtorClient.deletePrize(prizeId)
         return getProfile()
     }

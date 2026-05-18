@@ -47,14 +47,10 @@ fun ProfileScreen(navHostController: NavHostController, viewModel: LaureateViewM
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
-                    ProfileField(label = "ID", value = profile.id)
+                    ProfileField(label = "ID", value = profile.id.toString())
                     ProfileField(label = "Имя", value = profile.username)
                     ProfileField(label = "Пол", value = profile.gender)
-                    ProfileField(label = "Возраст", value = profile.age)
-                    ProfileField(
-                        label = "Количество избранных",
-                        value = profile.favoritePrizes.size.toString()
-                    )
+                    ProfileField(label = "Возраст", value = profile.age.toString())
                 }
             }
         }

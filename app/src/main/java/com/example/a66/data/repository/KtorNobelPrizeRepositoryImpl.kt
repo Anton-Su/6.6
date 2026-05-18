@@ -14,7 +14,7 @@ class KtorNobelPrizeRepositoryImpl : NobelPrizeRepository {
             val response = KtorClient.fetchLaureates()
             val all = response.map { it.toDomain() }
             all.filter { p ->
-                val yearMatch = nobelPrizeYear?.let { y -> p.year == y.toString() } ?: true
+                val yearMatch = nobelPrizeYear?.let { y -> p.year == y } ?: true
                 val catMatch = nobelPrizeCategory?.let { c -> c.isBlank() || p.category.equals(c, ignoreCase = true) } ?: true
                 yearMatch && catMatch
             }

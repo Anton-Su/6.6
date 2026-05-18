@@ -2,8 +2,8 @@
 
 
 data class NobelPrize(
-    val id: String,
-    val year: String,
+    val id: Int,
+    val year: Int,
     val category: String,
     val laureates: List<Laureate>
 )

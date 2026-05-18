@@ -1,7 +1,6 @@
 ﻿package com.example.a66.data.remote
 
 
-import com.example.a66.data.model.LaureateDto
 import com.example.a66.data.model.LoginResponse
 import com.example.a66.data.model.NobelPrizeDto
 import com.example.a66.data.model.UserDto
@@ -94,7 +93,7 @@ object KtorClient {
         }.body()
     }
 
-    suspend fun addPrize(prizeId: String) {
+    suspend fun addPrize(prizeId: Int) {
         client.post("http://10.0.2.2:8080/users/me/prizes/$prizeId") {
             header(
                 HttpHeaders.Authorization,
@@ -113,7 +112,7 @@ object KtorClient {
         }.body()
     }
 
-    suspend fun deletePrize(prizeId: String) {
+    suspend fun deletePrize(prizeId: Int) {
         client.delete("http://10.0.2.2:8080/users/me/prizes/$prizeId") {
             header(
                 HttpHeaders.Authorization,

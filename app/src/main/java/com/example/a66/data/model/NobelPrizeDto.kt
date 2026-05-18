@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NobelPrizeDto(
-    val id: String,
-    val year: String,
+    val id: Int,
+    val year: Int,
     val category: String,
     val laureates: List<LaureateDto> = emptyList()
 )

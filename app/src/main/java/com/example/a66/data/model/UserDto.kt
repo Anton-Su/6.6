@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDto(
-    val id: String,
+    val id: Int,
     val username: String,
     val gender: String,
-    val age: String,
+    val age: Int,
     val favoritePrizes: List<NobelPrizeDto>
 )
 
